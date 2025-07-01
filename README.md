@@ -50,6 +50,12 @@ telegram_account_bot/ │ ├── main.py ├── database.py ├── mess
 
 ---
 
+# 👤 Developer
+
+Made with ❤️ by Bashir Rabiu
+
+---
+
 ## ❗ DISCLAIMER
 
 > **Wannan bot yana da nufin taimakawa saye da siyar da sabbin Telegram accounts. Ba ya goyon bayan aikata laifi ko amfani da asusun da aka sace ko karya doka.**
