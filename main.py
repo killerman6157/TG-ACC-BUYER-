@@ -1,25 +1,18 @@
-import os
-from aiogram import Bot, Dispatcher, executor
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from dotenv import load_dotenv
+import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+from config import BOT_TOKEN
+from handlers import user, admin
 
-from database import init_db
-from handlers import otp_handler, cancel_handler, balance_handler, withdraw_handler, language_handler, admin_handler
+async def main():
+    bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
+    dp = Dispatcher(storage=MemoryStorage())
 
-load_dotenv()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+    # Register handlers
+    dp.include_routers(user.router, admin.router)
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot, storage=MemoryStorage())
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
 
-init_db()
-
-otp_handler.register(dp)
-cancel_handler.register(dp)
-balance_handler.register(dp)
-withdraw_handler.register(dp)
-language_handler.register(dp)
-admin_handler.register(dp)
-
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+if __name__ == "__main__":
+    asyncio.run(main())
